@@ -5,12 +5,12 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: -1;
-    border: 2px solid #797979;
+    border: 2px solid #231628;
     border-radius: 5px;
 }
 
 body {
-    background: #242424;
+    background: #51335b;
     color: #fff;
     font-family: Arial, sans-serif;
     text-align: center;

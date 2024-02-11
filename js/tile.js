@@ -11,14 +11,14 @@ class Tile {
         const halfWidth = width / 2;
         const halfHeight = height / 2;
 
-        context.fillStyle = this.revealed ? 'white' : 'grey';
+        context.fillStyle = this.revealed ? 'rgb(38, 38, 38)' : 'rgb(81, 51, 91)';
         context.fillRect(x, y, width, height);
 
         context.strokeStyle = 'black';
         context.strokeRect(x, y, width, height);
 
         if (this.flag) {
-            context.fillStyle = 'red';
+            context.fillStyle = 'rgb(149, 93, 167)';
             context.fillRect(x, y, width, height);
         }
 
@@ -33,6 +33,7 @@ class Tile {
                 return;
             } else {
                 context.font = "20px Arial";
+                context.fillStyle = 'rgb(152, 152, 152)'
                 context.fillText(this.type, x + halfWidth - 10, y + halfHeight + 10);
             }
         }
