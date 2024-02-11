@@ -5,6 +5,15 @@ class Board {
         this.bomb_count = bomb_count;
 
         this.tiles = [];
+
+        // Pregenerate the empty tiles
+        for (let x = 0; x < this.width; x++) {
+            for (let y = 0; y < this.height; y++) {
+                this.tiles.push(new Tile(new Point(x, y), 'empty'));
+            }
+        }
+
+        this.generated = false;
     }
 
     draw(ctx) {
@@ -14,9 +23,14 @@ class Board {
     }
 
     click(point, button = 0) {
+        if (!this.generated) {
+            this.generate();
+            this.generated = true;
+        }
+
         const tile = this.tiles.find(t => t.point.x == point.x && t.point.y == point.y);
 
-        if (button == 0) {
+        if (button == 0 && !tile.revealed) {
             tile.revealed = true;
             tile.flag = false;
 
@@ -43,12 +57,6 @@ class Board {
     }
 
     generate() {
-        for (let x = 0; x < this.width; x++) {
-            for (let y = 0; y < this.height; y++) {
-                this.tiles.push(new Tile(new Point(x, y), 'empty'));
-            }
-        }
-
         this.#generateBombs();
     }
 
