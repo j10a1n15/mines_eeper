@@ -14,6 +14,7 @@ class Board {
         }
 
         this.generated = false;
+        this.won = false;
     }
 
     draw(ctx) {
@@ -69,6 +70,8 @@ class Board {
                 }
             }
         }
+
+        this.#checkWin();
     }
 
     generateBombs(excludeBombPoint = null) {
@@ -92,6 +95,18 @@ class Board {
             }
 
             tile.type = "bomb";
+        }
+    }
+
+    #checkWin() {
+        if (this.won) return;
+        const revealedTiles = this.tiles.filter(t => t.revealed);
+        const bombs = this.tiles.filter(t => t.type == "bomb");
+
+        if (revealedTiles.length + bombs.length == this.tiles.length) {
+            this.won = true;
+            stopTimer();
+            alert("You won!\nGG!");
         }
     }
 

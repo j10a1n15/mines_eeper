@@ -9,7 +9,7 @@
 <body>
     <div id="bar">
         <div>Time passed: <span id="time">0.00</span></div>
-        <div>Personal Best: <span id="pb">soon™️</span></div>
+        <div>Personal Best: <span id="pb">No PB yet</span></div>
         <div>Mines Left: <span id="mineCount"></span></div>
     </div>
     <canvas id="canvas" width="400" height="400"></canvas>
@@ -19,10 +19,11 @@
     <script src="js/tile.js"></script>
 
     <script>
-        const TILE_SIZE = 30;
-        const WIDTH = 30;
-        const HEIGHT = 20;
-        const MINES = 100;
+        const TILE_SIZE = 40;
+
+        const WIDTH = 10;
+        const HEIGHT = 10;
+        const MINES = 5;
 
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -59,12 +60,31 @@
             e.preventDefault();
         });
 
+        /*
+        * Timer
+        */
+        const timeElement = document.getElementById('time');
+
+        if (localStorage.getItem('pb')) {
+            document.getElementById('pb').innerText = localStorage.getItem('pb');
+        }
+
+        let time = 0;
+        let timerInterval;
         function startTimer() {
-            let time = 0;
-            setInterval(() => {
+            timerInterval = setInterval(() => {
                 time += 0.01;
-                document.getElementById('time').innerText = time.toFixed(2);
+                timeElement.innerText = time.toFixed(2);
             }, 10);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+
+            if (!localStorage.getItem('pb') || time < localStorage.getItem('pb')) {
+                document.getElementById('pb').innerText = time.toFixed(2);
+                localStorage.setItem('pb', time.toFixed(2));
+            }
         }
     </script>
 </body>
