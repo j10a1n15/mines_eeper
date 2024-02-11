@@ -14,21 +14,43 @@
     </div>
     <canvas id="canvas" width="400" height="400"></canvas>
 
+    <div id="startScreen" class="screen">
+        <h1>Mines eeper</h1>
+        <p>Configure your settings:</p>
+        <div class = "boardSettings">
+            <label for="width">Width:</label>
+            <input type="number" id="width" value="30">
+            <label for="height">Height:</label>
+            <input type="number" id="height" value="20">
+            <label for="mines">Mines:</label>
+            <input type="number" id="mines" value="100">
+        </div>
+
+        <button onclick="startGame()">Start Game</button>
+    </div>
+    <div id="loseScreen" class="screen" style = "display: none;"></div>
+    <div id="winScreen" class="screen" style = "display: none;"></div>
+
     <script src="js/board.js"></script>
     <script src="js/point.js"></script>
     <script src="js/tile.js"></script>
 
     <script>
+        let gameState = 'START';
         const TILE_SIZE = 40;
 
-        const WIDTH = 30;
-        const HEIGHT = 20;
-        const MINES = 100;
+        const WIDTH = localStorage.getItem('width') || 30;
+        const HEIGHT = localStorage.getItem('height') || 20;
+        const MINES = localStorage.getItem('mines') || 100;
+
+        document.getElementById('width').value = WIDTH;
+        document.getElementById('height').value = HEIGHT;
+        document.getElementById('mines').value = MINES;
 
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
 
-        const board = new Board(WIDTH, HEIGHT, MINES);
+        let board = new Board(WIDTH, HEIGHT, MINES);
         canvas.height = HEIGHT * TILE_SIZE;
         canvas.width = WIDTH * TILE_SIZE;
 
@@ -53,12 +75,31 @@
             const i = Math.floor(x / TILE_SIZE);
             const j = Math.floor(y / TILE_SIZE);
 
-            board.click(new Point(i, j), e.button);
+            if (gameState === "PLAYING") board.click(new Point(i, j), e.button);
         });
 
         canvas.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         });
+
+        function startGame() {
+            const width = document.getElementById('width').value;
+            const height = document.getElementById('height').value;
+            const mines = document.getElementById('mines').value;
+
+            localStorage.setItem('width', width);
+            localStorage.setItem('height', height);
+            localStorage.setItem('mines', mines);
+
+            canvas.height = height * TILE_SIZE;
+            canvas.width = width * TILE_SIZE;
+
+            board = new Board(width, height, mines);
+            gameState = 'PLAYING';
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('loseScreen').style.display = 'none';
+            document.getElementById('winScreen').style.display = 'none';
+        }
 
         /*
         * Timer
