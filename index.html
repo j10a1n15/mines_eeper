@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mines eeper</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+
+    <script src="js/board.js"></script>
+    <script src="js/point.js"></script>
+    <script src="js/tile.js"></script>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const board = new Board(10, 10, 10);
+        board.generate();
+
+        animate();
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            board.draw(ctx);
+
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener('mouseup', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const i = Math.floor(x / 40);
+            const j = Math.floor(y / 40);
+
+            board.click(new Point(i, j), e.button);
+        });
+
+        canvas.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+</html>
