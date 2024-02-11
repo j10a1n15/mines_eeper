@@ -24,7 +24,7 @@ class Board {
 
     click(point, button = 0) {
         if (!this.generated) {
-            this.generate();
+            this.generateBombs(point);
             this.generated = true;
         }
 
@@ -70,18 +70,27 @@ class Board {
         }
     }
 
-    generate() {
-        this.#generateBombs();
-    }
-
-    #generateBombs() {
+    generateBombs(excludeBombPoint = null) {
         for (let i = 0; i < this.bomb_count; i++) {
             let index = Math.floor(Math.random() * this.tiles.length);
-            if (this.tiles[index].type == 'bomb') {
-                i--;
-            } else {
-                this.tiles[index].type = 'bomb';
+            let tile = this.tiles[index];
+
+            // no mine on and around exclude bomb point
+            if (excludeBombPoint) {
+                const neighbors = this.#getNeighbors(excludeBombPoint);
+
+                if (neighbors.includes(tile) || tile.point.x === excludeBombPoint.x || tile.point.y === excludeBombPoint.y) {
+                    i--;
+                    continue;
+                }
             }
+
+            if (tile.type == "bomb") {
+                i--;
+                continue;
+            }
+
+            tile.type = "bomb";
         }
     }
 
