@@ -54,6 +54,20 @@ class Board {
 
             tile.flag = !tile.flag;
         }
+
+        if (button == 0 && tile.revealed) {
+            const neighbors = this.#getNeighbors(tile.point);
+
+            const flag_count = neighbors.filter(n => n.flag).length;
+
+            if (flag_count == tile.type) {
+                for (let neighbor of neighbors) {
+                    if (!neighbor.revealed && !neighbor.flag) {
+                        this.click(neighbor.point);
+                    }
+                }
+            }
+        }
     }
 
     generate() {
