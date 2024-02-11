@@ -26,6 +26,7 @@ class Board {
         if (!this.generated) {
             this.generateBombs(point);
             this.generated = true;
+            startTimer();
         }
 
         const tile = this.tiles.find(t => t.point.x == point.x && t.point.y == point.y);

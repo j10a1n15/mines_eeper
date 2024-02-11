@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="bar">
+        <div>Time passed: <span id="time">0.00</span></div>
+        <div>Personal Best: <span id="pb">soon™️</span></div>
+        <div>Mines Left: <span id="mineCount"></span></div>
+    </div>
     <canvas id="canvas" width="400" height="400"></canvas>
 
     <script src="js/board.js"></script>
@@ -32,6 +37,10 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             board.draw(ctx);
 
+            const flaggedCount = board.tiles.filter(t => t.flag).length;
+            const minesLeft = board.bomb_count - flaggedCount
+            document.getElementById('mineCount').innerText = minesLeft
+
             requestAnimationFrame(animate);
         }
 
@@ -49,6 +58,14 @@
         canvas.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         });
+
+        function startTimer() {
+            let time = 0;
+            setInterval(() => {
+                time += 0.01;
+                document.getElementById('time').innerText = time.toFixed(2);
+            }, 10);
+        }
     </script>
 </body>
 </html>

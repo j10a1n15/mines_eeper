@@ -18,3 +18,23 @@ body {
     padding: 0;
     overflow: hidden;
 }
+
+#bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 95%;
+    height: 50px;
+    transform: translate(2.5%, 0);
+    background: #492e53;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #231628;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#bar > * {
+    margin: 0 10px;
+}
