@@ -33,8 +33,9 @@ class Board {
         const tile = this.tiles.find(t => t.point.x == point.x && t.point.y == point.y);
 
         if (button == 0 && !tile.revealed) {
+            if (tile.flag) return;
+
             tile.revealed = true;
-            tile.flag = false;
 
             if (tile.type == "bomb") return alert("L");
 
