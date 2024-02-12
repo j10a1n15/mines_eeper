@@ -75,6 +75,8 @@ class Board {
         this.#checkWin();
     }
 
+    // how to no guess:
+    // https://dspace.cvut.cz/bitstream/handle/10467/68632/F3-BP-2017-Cicvarek-Jan-Algorithms%20for%20Minesweeper%20Game%20Grid%20Generation.pdf?sequence=-1&isAllowed=y
     generateMines(excludeMinePoint = null) {
         const flatTiles = this.tiles.flat();
         for (let i = 0; i < this.mineCount; i++) {
