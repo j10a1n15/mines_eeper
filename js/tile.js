@@ -23,7 +23,7 @@ class Tile {
             context.fillRect(x, y, width, height);
         }
 
-        if (this.revealed || gameState == "LOST") {
+        if (this.revealed || window.gameState == "LOST") {
             context.fillStyle = 'black';
 
             if (this.type === "mine") {
