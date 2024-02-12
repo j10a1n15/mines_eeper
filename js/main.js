@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const mines = document.getElementById('mines').value;
 
         if (!isValidInput(width, height, mines)) {
-            // Display appropriate warnings
+            // TODO: Display appropriate warnings
             return;
         }
 
