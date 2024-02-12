@@ -40,6 +40,15 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
     });
 
+    document.addEventListener('keyup', function (e) {
+        if (e.key === 'Escape') {
+            openStartMenu();
+        }
+        if (e.key === 'r' || e.key === ' ') {
+            startGame();
+        }
+    });
+
     function handleCanvasClick(e) {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
