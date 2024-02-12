@@ -1,92 +1,86 @@
+const LEFT_BUTTON = 0;
+const RIGHT_BUTTON = 2;
+
 class Board {
-    constructor(width, height, mine_count) {
+    constructor(width, height, mineCount) {
         this.width = width;
         this.height = height;
-        this.mine_count = mine_count;
-
-        this.tiles = [];
-
-        // Pregenerate the empty tiles
-        for (let x = 0; x < this.width; x++) {
-            for (let y = 0; y < this.height; y++) {
-                this.tiles.push(new Tile(new Point(x, y), 'empty'));
-            }
-        }
-
-        this.flag_count = 0
-        this.mines_left = mine_count
-
+        this.mineCount = mineCount;
+        this.flagCount = 0;
+        this.minesLeft = mineCount;
         this.generated = false;
         this.won = false;
+
+        this.tiles = Array.from({ length: width }, (_, x) =>
+            Array.from({ length: height }, (_, y) => new Tile(new Point(x, y), 'empty'))
+        );
     }
 
     draw(ctx) {
-        for (let tile of this.tiles) {
-            tile.draw(ctx, ctx.canvas.width / this.width, ctx.canvas.height / this.height);
-        }
+        const tileWidth = ctx.canvas.width / this.width;
+        const tileHeight = ctx.canvas.height / this.height;
+        this.tiles.flat().forEach(tile => tile.draw(ctx, tileWidth, tileHeight));
     }
 
-    click(point, button = 0) {
+    click(point, button = LEFT_BUTTON) {
         if (!this.generated) {
             this.generateMines(point);
             this.generated = true;
             startTimer();
         }
 
-        const tile = this.tiles.find(t => t.point.x == point.x && t.point.y == point.y);
+        const tile = this.tiles[point.x][point.y];
 
-        if (button == 0 && !tile.revealed) {
+        if (button === LEFT_BUTTON && !tile.revealed) {
             if (tile.flag) return;
 
             tile.revealed = true;
 
-            if (tile.type == "mine") return gameLost();
+            if (tile.type === "mine") return gameLost();
 
             const neighbors = this.#getNeighbors(tile.point);
+            const mineCount = neighbors.filter(n => n.type === "mine").length;
 
-            const mine_count = neighbors.filter(n => n.type == "mine").length;
-
-            if (mine_count > 0) {
-                tile.type = mine_count;
+            if (mineCount > 0) {
+                tile.type = mineCount;
             } else {
-                for (let neighbor of neighbors) {
+                neighbors.forEach(neighbor => {
                     if (!neighbor.revealed) {
                         this.click(neighbor.point);
                     }
-                }
+                });
             }
-        } else if (button == 2) {
+        } else if (button === RIGHT_BUTTON) {
             if (tile.revealed) return;
 
             tile.flag = !tile.flag;
         }
 
-        if (button == 0 && tile.revealed) {
+        if (button === LEFT_BUTTON && tile.revealed) {
             const neighbors = this.#getNeighbors(tile.point);
+            const flagCount = neighbors.filter(n => n.flag).length;
 
-            const flag_count = neighbors.filter(n => n.flag).length;
-
-            if (flag_count == tile.type) {
-                for (let neighbor of neighbors) {
+            if (flagCount === tile.type) {
+                neighbors.forEach(neighbor => {
                     if (!neighbor.revealed && !neighbor.flag) {
                         this.click(neighbor.point);
                     }
-                }
+                });
             }
         }
 
-        this.flag_count = this.tiles.filter(t => t.flag).length;
-        this.mines_left = this.mine_count - this.flag_count
+        this.flagCount = this.tiles.flat().filter(t => t.flag).length;
+        this.minesLeft = this.mineCount - this.flagCount;
 
         this.#checkWin();
     }
 
     generateMines(excludeMinePoint = null) {
-        for (let i = 0; i < this.mine_count; i++) {
-            let index = Math.floor(Math.random() * this.tiles.length);
-            let tile = this.tiles[index];
+        const flatTiles = this.tiles.flat();
+        for (let i = 0; i < this.mineCount; i++) {
+            let index = Math.floor(Math.random() * flatTiles.length);
+            let tile = flatTiles[index];
 
-            // no mine on and around exclude mine point
             if (excludeMinePoint) {
                 const neighbors = this.#getNeighbors(excludeMinePoint);
 
@@ -96,7 +90,7 @@ class Board {
                 }
             }
 
-            if (tile.type == "mine") {
+            if (tile.type === "mine") {
                 i--;
                 continue;
             }
@@ -107,10 +101,10 @@ class Board {
 
     #checkWin() {
         if (this.won) return;
-        const revealedTiles = this.tiles.filter(t => t.revealed);
-        const mines = this.tiles.filter(t => t.type == "mine");
+        const revealedTiles = this.tiles.flat().filter(t => t.revealed);
+        const mines = this.tiles.flat().filter(t => t.type === "mine");
 
-        if (revealedTiles.length + mines.length == this.tiles.length) {
+        if (revealedTiles.length + mines.length === this.tiles.flat().length) {
             this.won = true;
             stopTimer();
             alert("You won!\nGG!");
@@ -118,10 +112,16 @@ class Board {
     }
 
     #getNeighbors(point) {
-        return this.tiles.filter(t =>
-            t.point.x >= point.x - 1 && t.point.x <= point.x + 1 &&
-            t.point.y >= point.y - 1 && t.point.y <= point.y + 1 &&
-            !(t.point.x === point.x && t.point.y === point.y)
-        );
+        const { x, y } = point;
+        return [
+            this.tiles[x - 1]?.[y - 1],
+            this.tiles[x - 1]?.[y],
+            this.tiles[x - 1]?.[y + 1],
+            this.tiles[x]?.[y - 1],
+            this.tiles[x]?.[y + 1],
+            this.tiles[x + 1]?.[y - 1],
+            this.tiles[x + 1]?.[y],
+            this.tiles[x + 1]?.[y + 1]
+        ].filter(Boolean);
     }
 }
