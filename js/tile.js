@@ -22,10 +22,10 @@ class Tile {
             context.fillRect(x, y, width, height);
         }
 
-        if (this.revealed) {
+        if (this.revealed || gameState == "LOST") {
             context.fillStyle = 'black';
 
-            if (this.type === "bomb") {
+            if (this.type === "mine") {
                 context.beginPath();
                 context.arc(x + halfWidth, y + halfHeight, width / 3, 0, Math.PI * 2);
                 context.fill();

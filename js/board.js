@@ -13,6 +13,9 @@ class Board {
             }
         }
 
+        this.flag_count = 0
+        this.bombs_left = bomb_count
+
         this.generated = false;
         this.won = false;
     }
@@ -37,11 +40,11 @@ class Board {
 
             tile.revealed = true;
 
-            if (tile.type == "bomb") return alert("L");
+            if (tile.type == "mine") return gameLost();
 
             const neighbors = this.#getNeighbors(tile.point);
 
-            const bomb_count = neighbors.filter(n => n.type == "bomb").length;
+            const bomb_count = neighbors.filter(n => n.type == "mine").length;
 
             if (bomb_count > 0) {
                 tile.type = bomb_count;
@@ -72,6 +75,9 @@ class Board {
             }
         }
 
+        this.flag_count = this.tiles.filter(t => t.flag).length;
+        this.bombs_left = this.bomb_count - this.flag_count
+
         this.#checkWin();
     }
 
@@ -90,19 +96,19 @@ class Board {
                 }
             }
 
-            if (tile.type == "bomb") {
+            if (tile.type == "mine") {
                 i--;
                 continue;
             }
 
-            tile.type = "bomb";
+            tile.type = "mine";
         }
     }
 
     #checkWin() {
         if (this.won) return;
         const revealedTiles = this.tiles.filter(t => t.revealed);
-        const bombs = this.tiles.filter(t => t.type == "bomb");
+        const bombs = this.tiles.filter(t => t.type == "mine");
 
         if (revealedTiles.length + bombs.length == this.tiles.length) {
             this.won = true;
