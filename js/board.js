@@ -1,8 +1,8 @@
 class Board {
-    constructor(width, height, bomb_count) {
+    constructor(width, height, mine_count) {
         this.width = width;
         this.height = height;
-        this.bomb_count = bomb_count;
+        this.mine_count = mine_count;
 
         this.tiles = [];
 
@@ -14,7 +14,7 @@ class Board {
         }
 
         this.flag_count = 0
-        this.bombs_left = bomb_count
+        this.mines_left = mine_count
 
         this.generated = false;
         this.won = false;
@@ -28,7 +28,7 @@ class Board {
 
     click(point, button = 0) {
         if (!this.generated) {
-            this.generateBombs(point);
+            this.generateMines(point);
             this.generated = true;
             startTimer();
         }
@@ -44,10 +44,10 @@ class Board {
 
             const neighbors = this.#getNeighbors(tile.point);
 
-            const bomb_count = neighbors.filter(n => n.type == "mine").length;
+            const mine_count = neighbors.filter(n => n.type == "mine").length;
 
-            if (bomb_count > 0) {
-                tile.type = bomb_count;
+            if (mine_count > 0) {
+                tile.type = mine_count;
             } else {
                 for (let neighbor of neighbors) {
                     if (!neighbor.revealed) {
@@ -76,21 +76,21 @@ class Board {
         }
 
         this.flag_count = this.tiles.filter(t => t.flag).length;
-        this.bombs_left = this.bomb_count - this.flag_count
+        this.mines_left = this.mine_count - this.flag_count
 
         this.#checkWin();
     }
 
-    generateBombs(excludeBombPoint = null) {
-        for (let i = 0; i < this.bomb_count; i++) {
+    generateMines(excludeMinePoint = null) {
+        for (let i = 0; i < this.mine_count; i++) {
             let index = Math.floor(Math.random() * this.tiles.length);
             let tile = this.tiles[index];
 
-            // no mine on and around exclude bomb point
-            if (excludeBombPoint) {
-                const neighbors = this.#getNeighbors(excludeBombPoint);
+            // no mine on and around exclude mine point
+            if (excludeMinePoint) {
+                const neighbors = this.#getNeighbors(excludeMinePoint);
 
-                if (neighbors.includes(tile) || tile.point.x === excludeBombPoint.x || tile.point.y === excludeBombPoint.y) {
+                if (neighbors.includes(tile) || tile.point.x === excludeMinePoint.x || tile.point.y === excludeMinePoint.y) {
                     i--;
                     continue;
                 }
@@ -108,9 +108,9 @@ class Board {
     #checkWin() {
         if (this.won) return;
         const revealedTiles = this.tiles.filter(t => t.revealed);
-        const bombs = this.tiles.filter(t => t.type == "mine");
+        const mines = this.tiles.filter(t => t.type == "mine");
 
-        if (revealedTiles.length + bombs.length == this.tiles.length) {
+        if (revealedTiles.length + mines.length == this.tiles.length) {
             this.won = true;
             stopTimer();
             alert("You won!\nGG!");

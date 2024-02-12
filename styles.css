@@ -83,6 +83,10 @@ input {
     cursor: pointer;
 }
 
+.screen button:hover {
+    background: #673d75;
+}
+
 .warning {
     color: #fa4c4c;
     display: none;

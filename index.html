@@ -30,7 +30,7 @@
 
             <label for="mines">Mines:</label>
             <input type="number" id="mines" value="100">
-            <p id="warningBomb" class="warning">More bombs than spaces available.</p>
+            <p id="warningMine" class="warning">More mines than spaces available.</p>
             &nbsp;
         </div>
 
@@ -80,7 +80,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             board.draw(ctx);
 
-            document.getElementById('mineCount').innerText = board.bombs_left
+            document.getElementById('mineCount').innerText = board.mines_left
 
             requestAnimationFrame(animate);
         }
@@ -128,7 +128,7 @@
             const timeLostElement = document.getElementById("timeLost");
             const personalBestElement = document.getElementById("personalBest");
     
-            minesLostElement.innerText = `${board.bombs_left}/${board.bomb_count}`;
+            minesLostElement.innerText = `${board.mines_left}/${board.mine_count}`;
             timeLostElement.innerText = time.toFixed(2);
     
             const personalBest = localStorage.getItem('pb');
@@ -171,7 +171,7 @@
     
         const warningWidth = document.getElementById('warningWidth');
         const warningHeight = document.getElementById('warningHeight');
-        const warningBomb = document.getElementById('warningBomb');
+        const warningMine = document.getElementById('warningMine');
 
         widthInput.addEventListener('input', checkWidth);
         heightInput.addEventListener('input', checkHeight);
@@ -202,9 +202,9 @@
     
             const totalSpaces = width * height;
             if (mines > totalSpaces - 1) {
-                warningBomb.style.display = 'block';
+                warningMine.style.display = 'block';
             } else {
-                warningBomb.style.display = 'none';
+                warningMine.style.display = 'none';
             }
         }
     
