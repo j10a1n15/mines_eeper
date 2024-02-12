@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
     canvas.height = HEIGHT * TILE_SIZE;
     canvas.width = WIDTH * TILE_SIZE;
 
+    openStartMenu();
+
     animate();
 
     function animate() {
@@ -29,6 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
         window.openStartMenu = openStartMenu;
         window.startGame = startGame;
         window.gameLost = gameLost;
+        window.gameWon = gameWon;
         window.startTimer = startTimer;
 
         requestAnimationFrame(animate);
@@ -64,6 +67,10 @@ document.addEventListener('DOMContentLoaded', function () {
         startScreen.style.display = 'block';
         lostScreen.style.display = 'none';
         wonScreen.style.display = 'none';
+
+        document.getElementById('width').value = WIDTH;
+        document.getElementById('height').value = HEIGHT;
+        document.getElementById('mines').value = MINES;
     }
 
     function startGame() {
@@ -75,6 +82,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // TODO: Display appropriate warnings
             return;
         }
+
+        time = 0;
 
         localStorage.setItem('width', width);
         localStorage.setItem('height', height);
@@ -97,13 +106,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const minesLostElement = document.getElementById("minesLost");
         const timeLostElement = document.getElementById("timeLost");
-        const personalBestElement = document.getElementById("personalBest");
+        const personalBestElement = document.getElementById("personalBestLost");
 
         minesLostElement.innerText = `${board.minesLeft}/${board.mineCount}`;
         timeLostElement.innerText = time.toFixed(2);
 
         const personalBest = localStorage.getItem('pb');
         personalBestElement.innerText = personalBest ? personalBest : "No Personal Best Yet";
+    }
+
+    function gameWon() {
+        stopTimer();
+        wonScreen.style.display = "block";
+        gameState = "WON";
+
+        const timeWonElement = document.getElementById("timeTaken");
+        const pbElement = document.getElementById("personalBestWon");
+
+        timeWonElement.innerText = time.toFixed(2);
+        console.log(localStorage.getItem('pb') || time.toFixed(2))
+        pbElement.innerText = localStorage.getItem('pb') || time.toFixed(2);
     }
 
     /*

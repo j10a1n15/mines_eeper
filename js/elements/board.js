@@ -108,8 +108,7 @@ class Board {
 
         if (revealedTiles.length + mines.length === this.tiles.flat().length) {
             this.won = true;
-            stopTimer();
-            alert("You won!\nGG!");
+            gameWon();
         }
     }
 

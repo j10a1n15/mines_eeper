@@ -14,7 +14,7 @@
     </div>
     <canvas id="canvas" width="400" height="400"></canvas>
 
-    <div id="startScreen" class="screen">
+    <div id="startScreen" class="screen" style="display: none;">
         <h1>Mines eeper</h1>
         <p>Configure your settings:</p>
         <div class = "screenChild">
@@ -41,14 +41,25 @@
         <div class="screenChild" id="loseInfo">
             <p>Mines left: <span id="minesLost"></span></p>
             <p>Time Taken: <span id="timeLost"></span> seconds</p>
-            <p>Personal Best: <span id="personalBest"></span></p>
+            <p>Personal Best: <span id="personalBestLost"></span></p>
         </div>
         <div class="screenChild">
             <button onclick="openStartMenu()">Open Start Menu</button>
             <button onclick="startGame()">Restart</button>
         </div>
     </div>
-    <div id="winScreen" class="screen" style="display: none;"></div>
+    <div id="winScreen" class="screen" style="display: none;">
+        <h1>yo ggs!</h1>
+        <div class="screenChild" id="winInfo">
+            <p>Time Taken: <span id="timeTaken"></span> seconds</p>
+            <p>Personal Best: <span id="personalBestWon"></span></p>
+        </div>
+        <div class="screenChild">
+            <button onclick="openStartMenu()">Open Start Menu</button>
+            <button onclick="startGame()">Restart</button>
+        </div>
+    </div>
+    
 
     <script src="./js/main.js"></script>
     <script src="./js/elements/board.js"></script>
