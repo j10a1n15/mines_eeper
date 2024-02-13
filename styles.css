@@ -35,8 +35,51 @@ body {
     border-bottom-right-radius: 10px;
 }
 
-#bar > * {
+.centerBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centerBar > * {
     margin: 0 10px;
+}
+
+.rightBar {
+    position: absolute;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hamburger {
+    cursor: pointer;
+    margin: 0 10px;
+    position: relative;
+}
+
+.hamburgerBar {
+    width: 30px;
+    height: 3px;
+    background: #fff;
+    margin: 5px;
+}
+
+.hamburgerMenu {
+    position: absolute;
+    width: 150px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #492e53;
+    border: 1px solid #231628;
+    border-radius: 5px;
+    z-index: 2;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0);
 }
 
 .screen {

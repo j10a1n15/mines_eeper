@@ -52,6 +52,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+
+    document.getElementById("hamburger").addEventListener('click', function () {
+        console.log("clickeddd")
+        const hamburgerMenu = document.getElementById("hamburgerMenu")
+        hamburgerMenu.style.display = hamburgerMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
     function handleCanvasClick(e) {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
