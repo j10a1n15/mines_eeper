@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function stopTimer(won = true) {
         clearInterval(timerInterval);
 
-        if (!localStorage.getItem('pb') || time < localStorage.getItem('pb') && won) {
+        if ((!localStorage.getItem('pb') || time < localStorage.getItem('pb')) && won) {
             document.getElementById('pb').innerText = time.toFixed(2);
             localStorage.setItem('pb', time.toFixed(2));
         }
