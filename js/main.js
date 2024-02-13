@@ -134,6 +134,11 @@ document.addEventListener('DOMContentLoaded', function () {
         pbElement.innerText = localStorage.getItem('pb') || time.toFixed(2);
     }
 
+    window.resetPb = function () {
+        localStorage.removeItem('pb');
+        document.getElementById('pb').innerText = "No Personal Best Yet";
+    }
+
     /*
     * Timer
     */

@@ -75,7 +75,7 @@ body {
     background: #492e53;
     border: 1px solid #231628;
     border-radius: 5px;
-    z-index: 2;
+    z-index: 4;
 
     left: 50%;
     top: 50%;
@@ -116,7 +116,7 @@ input {
     color: #fff;
 }
 
-.screen button {
+button {
     margin: 10px;
     padding: 5px;
     border-radius: 5px;
@@ -126,7 +126,7 @@ input {
     cursor: pointer;
 }
 
-.screen button:hover {
+button:hover {
     background: #673d75;
 }
 
