@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const startScreen = document.getElementById("startScreen");
     const lostScreen = document.getElementById("loseScreen");
     const wonScreen = document.getElementById("winScreen");
+    const timeElement = document.getElementById('time');
+    const mineCountElement = document.getElementById('mineCount');
 
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -25,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         board.draw(ctx);
 
-        document.getElementById('mineCount').innerText = board.minesLeft;
+        mineCountElement.innerText = board.minesLeft;
 
         window.gameState = gameState;
         window.openStartMenu = openStartMenu;
@@ -142,8 +144,6 @@ document.addEventListener('DOMContentLoaded', function () {
     /*
     * Timer
     */
-    const timeElement = document.getElementById('time');
-
     if (localStorage.getItem('pb')) {
         document.getElementById('pb').innerText = localStorage.getItem('pb');
     }
