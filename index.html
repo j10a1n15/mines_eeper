@@ -31,20 +31,22 @@
         <h1>Mines eeper</h1>
         <p>Configure your settings:</p>
         <div class = "screenChild">
-            <label for="width">Width:</label>
-            <input type="number" id="width" value="30">
-            <p id="warningWidth" class="warning">Width might be too large for your screen.</p>
-            &nbsp;
+            <label for="gameMode">Select Game Mode:</label>
+            <select id="gameMode">
+            </select>
+        </div>
+        <div id="customInputs" class="screenChild" style="display: none;">
+            <label for="customWidth">Custom Width:</label>
+            <input type="number" id="customWidth">
+            <br>
 
-            <label for="height">Height:</label>
-            <input type="number" id="height" value="20">
-            <p id="warningHeight" class="warning">Height might be too large for your screen.</p>
-            &nbsp;
+            <label for="customHeight">Custom Height:</label>
+            <input type="number" id="customHeight">
+            <br>
 
-            <label for="mines">Mines:</label>
-            <input type="number" id="mines" value="100">
-            <p id="warningMine" class="warning">More mines than spaces available.</p>
-            &nbsp;
+            <label for="customMines">Custom Mines:</label>
+            <input type="number" id="customMines">
+            <br>
         </div>
 
         <button onclick="startGame()">Start Game</button>

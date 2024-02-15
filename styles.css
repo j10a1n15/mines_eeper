@@ -103,6 +103,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    align-content: center;
     justify-content: center;
     z-index: 3;
 }
@@ -128,12 +129,4 @@ button {
 
 button:hover {
     background: #673d75;
-}
-
-.warning {
-    color: #fa4c4c;
-    display: none;
-    padding: 0;
-    margin: 0;
-    font-size: small;
 }

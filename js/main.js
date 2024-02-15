@@ -2,14 +2,24 @@ document.addEventListener('DOMContentLoaded', function () {
     let gameState = 'START';
     const TILE_SIZE = 40;
 
-    const WIDTH = localStorage.getItem('width') || 30;
-    const HEIGHT = localStorage.getItem('height') || 20;
-    const MINES = localStorage.getItem('mines') || 100;
+    let WIDTH = localStorage.getItem('width') || 30;
+    let HEIGHT = localStorage.getItem('height') || 20;
+    let MINES = localStorage.getItem('mines') || 100;
+
+    const gameModes = [
+        { value: 'easy', label: 'Easy 10x10 - 10', width: 10, height: 10, mines: 10 },
+        { value: 'medium', label: 'Medium 15x15 - 40', width: 15, height: 15, mines: 40 },
+        { value: 'hard', label: 'Hard 20x20 - 80', width: 20, height: 20, mines: 80 },
+        { value: 'vahvl', label: 'The Vahvl Size™️', width: 32, height: 18, mines: 150 },
+        { value: 'custom', label: 'Custom' }
+    ];
+
 
     const startScreen = document.getElementById("startScreen");
     const lostScreen = document.getElementById("loseScreen");
     const wonScreen = document.getElementById("winScreen");
     const mineCountElement = document.getElementById('mineCount');
+    const gameModeSelect = document.getElementById('gameMode');
 
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -17,6 +27,15 @@ document.addEventListener('DOMContentLoaded', function () {
     let board = new Board(WIDTH, HEIGHT, MINES);
     canvas.height = HEIGHT * TILE_SIZE;
     canvas.width = WIDTH * TILE_SIZE;
+
+    gameModes.forEach(mode => {
+        const option = document.createElement('option');
+        option.value = mode.value;
+        option.text = mode.label;
+        gameModeSelect.add(option);
+    });
+
+    gameModeSelect.value = 'easy';
 
     openStartMenu();
 
@@ -52,10 +71,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-
     document.getElementById("hamburger").addEventListener('click', function () {
         const hamburgerMenu = document.getElementById("hamburgerMenu")
         hamburgerMenu.style.display = hamburgerMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.getElementById('gameMode').addEventListener('change', function () {
+        openStartMenu();
     });
 
     function handleCanvasClick(e) {
@@ -74,22 +96,39 @@ document.addEventListener('DOMContentLoaded', function () {
         lostScreen.style.display = 'none';
         wonScreen.style.display = 'none';
 
-        document.getElementById('width').value = WIDTH;
-        document.getElementById('height').value = HEIGHT;
-        document.getElementById('mines').value = MINES;
+        document.getElementById('customWidth').value = WIDTH;
+        document.getElementById('customHeight').value = HEIGHT;
+        document.getElementById('customMines').value = MINES;
+
+
+        const gameMode = document.getElementById('gameMode').value;
+
+        if (gameMode === 'custom') {
+            document.getElementById('customInputs').style.display = 'block';
+        } else {
+            document.getElementById('customInputs').style.display = 'none';
+        }
     }
 
     function startGame() {
-        const width = document.getElementById('width').value;
-        const height = document.getElementById('height').value;
-        const mines = document.getElementById('mines').value;
+        const selectedGameMode = gameModes.find(mode => mode.value === gameModeSelect.value);
+        let width, height, mines;
 
-        if (!isValidInput(width, height, mines)) {
-            // TODO: Display appropriate warnings
-            return;
+        if (selectedGameMode.value === 'custom') {
+            width = parseInt(document.getElementById('customWidth').value);
+            height = parseInt(document.getElementById('customHeight').value);
+            mines = parseInt(document.getElementById('customMines').value);
+        } else {
+            width = selectedGameMode.width;
+            height = selectedGameMode.height;
+            mines = selectedGameMode.mines;
         }
 
         time = 0;
+
+        WIDTH = width;
+        HEIGHT = height;
+        MINES = mines;
 
         localStorage.setItem('width', width);
         localStorage.setItem('height', height);
@@ -132,28 +171,5 @@ document.addEventListener('DOMContentLoaded', function () {
         timeWonElement.innerText = time.toFixed(2);
         console.log(localStorage.getItem('pb') || time.toFixed(2))
         pbElement.innerText = localStorage.getItem('pb') || time.toFixed(2);
-    }
-
-    /*
-    * Input Validation
-    */
-    function isValidInput(width, height, mines) {
-        const warningWidth = document.getElementById('warningWidth');
-        const warningHeight = document.getElementById('warningHeight');
-        const warningMine = document.getElementById('warningMine');
-
-        const parsedWidth = parseInt(width);
-        const parsedHeight = parseInt(height);
-        const parsedMines = parseInt(mines);
-
-        const maxTileWidth = window.innerWidth / TILE_SIZE;
-        const maxTileHeight = window.innerHeight / TILE_SIZE;
-        const totalSpaces = parsedWidth * parsedHeight;
-
-        warningWidth.style.display = parsedWidth > maxTileWidth ? 'block' : 'none';
-        warningHeight.style.display = parsedHeight > maxTileHeight ? 'block' : 'none';
-        warningMine.style.display = parsedMines > totalSpaces - 1 ? 'block' : 'none';
-
-        return parsedWidth > 0 && parsedHeight > 0 && parsedMines >= 0 && parsedMines < totalSpaces;
     }
 });
