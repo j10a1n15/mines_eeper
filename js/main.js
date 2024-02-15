@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const startScreen = document.getElementById("startScreen");
     const lostScreen = document.getElementById("loseScreen");
     const wonScreen = document.getElementById("winScreen");
-    const timeElement = document.getElementById('time');
     const mineCountElement = document.getElementById('mineCount');
 
     const canvas = document.getElementById('canvas');
@@ -34,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
         window.startGame = startGame;
         window.gameLost = gameLost;
         window.gameWon = gameWon;
-        window.startTimer = startTimer;
 
         requestAnimationFrame(animate);
     }
@@ -134,36 +132,6 @@ document.addEventListener('DOMContentLoaded', function () {
         timeWonElement.innerText = time.toFixed(2);
         console.log(localStorage.getItem('pb') || time.toFixed(2))
         pbElement.innerText = localStorage.getItem('pb') || time.toFixed(2);
-    }
-
-    window.resetPb = function () {
-        localStorage.removeItem('pb');
-        document.getElementById('pb').innerText = "No Personal Best Yet";
-    }
-
-    /*
-    * Timer
-    */
-    if (localStorage.getItem('pb')) {
-        document.getElementById('pb').innerText = localStorage.getItem('pb');
-    }
-
-    let time = 0;
-    let timerInterval;
-    function startTimer() {
-        timerInterval = setInterval(() => {
-            time += 0.01;
-            timeElement.innerText = time.toFixed(2);
-        }, 10);
-    }
-
-    function stopTimer(won = true) {
-        clearInterval(timerInterval);
-
-        if ((!localStorage.getItem('pb') || time < localStorage.getItem('pb')) && won) {
-            document.getElementById('pb').innerText = time.toFixed(2);
-            localStorage.setItem('pb', time.toFixed(2));
-        }
     }
 
     /*
