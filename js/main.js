@@ -65,6 +65,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('keyup', function (e) {
         if (e.key === 'Escape') {
             openStartMenu();
+            stopTimer(false);
+            gameState = 'START';
         }
         if (e.key === 'r' || e.key === ' ') {
             startGame();
