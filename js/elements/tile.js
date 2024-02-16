@@ -3,7 +3,7 @@ class Tile {
         this.point = point;
         this.type = type;
         this.revealed = revealed;
-        this.flag = flag
+        this.flag = flag;
     }
 
     draw(context, width, height) {
