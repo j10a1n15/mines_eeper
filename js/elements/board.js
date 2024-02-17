@@ -1,4 +1,5 @@
 const LEFT_BUTTON = 0;
+const MIDDLE_BUTTON = 1;
 const RIGHT_BUTTON = 2;
 
 class Board {
@@ -31,6 +32,12 @@ class Board {
 
         const tile = this.tiles[point.x][point.y];
 
+        if (button == MIDDLE_BUTTON) {
+            const neighbors = this.getNeighbors(tile.point);
+
+            console.log(tile, neighbors)
+        }
+
         if (button === LEFT_BUTTON && !tile.revealed) {
             if (tile.flag) return;
 
@@ -38,7 +45,7 @@ class Board {
 
             if (tile.type === "mine") return gameLost();
 
-            const neighbors = this.#getNeighbors(tile.point);
+            const neighbors = this.getNeighborsNotUndefined(tile.point);
             const mineCount = neighbors.filter(n => n.type === "mine").length;
 
             if (mineCount > 0) {
@@ -57,7 +64,7 @@ class Board {
         }
 
         if (button === LEFT_BUTTON && tile.revealed) {
-            const neighbors = this.#getNeighbors(tile.point);
+            const neighbors = this.getNeighborsNotUndefined(tile.point);
             const flagCount = neighbors.filter(n => n.flag).length;
 
             if (flagCount === tile.type) {
@@ -84,7 +91,7 @@ class Board {
             let tile = flatTiles[index];
 
             if (excludeMinePoint) {
-                const neighbors = this.#getNeighbors(excludeMinePoint);
+                const neighbors = this.getNeighborsNotUndefined(excludeMinePoint);
 
                 if (neighbors.includes(tile) || tile.point.x === excludeMinePoint.x || tile.point.y === excludeMinePoint.y) {
                     i--;
@@ -112,17 +119,21 @@ class Board {
         }
     }
 
-    #getNeighbors(point) {
+    getNeighbors(point) {
         const { x, y } = point;
         return [
-            this.tiles[x - 1]?.[y - 1],
-            this.tiles[x - 1]?.[y],
-            this.tiles[x - 1]?.[y + 1],
-            this.tiles[x]?.[y - 1],
-            this.tiles[x]?.[y + 1],
-            this.tiles[x + 1]?.[y - 1],
-            this.tiles[x + 1]?.[y],
-            this.tiles[x + 1]?.[y + 1]
-        ].filter(Boolean);
+            this.tiles[x - 1]?.[y - 1], // top-left
+            this.tiles[x]?.[y - 1], // top
+            this.tiles[x + 1]?.[y - 1], // top-right
+            this.tiles[x + 1]?.[y], // right
+            this.tiles[x + 1]?.[y + 1], // bottom-right
+            this.tiles[x]?.[y + 1], // bottom
+            this.tiles[x - 1]?.[y + 1], // bottom-left
+            this.tiles[x - 1]?.[y], // left
+        ]
+    }
+
+    getNeighborsNotUndefined(point) {
+        return this.getNeighbors(point).filter(n => n);
     }
 }
