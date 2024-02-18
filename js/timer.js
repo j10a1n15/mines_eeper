@@ -7,13 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
     window.time = 0;
 
     if (localStorage.getItem('pb')) {
-        pbElement.innerText = localStorage.getItem('pb');
+        pbElement.innerText = localStorage.getItem('pb') + "s";
     }
 
     window.startTimer = function () {
         timerInterval = setInterval(() => {
             time += 0.01;
-            timeElement.innerText = time.toFixed(2);
+            timeElement.innerText = time.toFixed(2) + "s";
         }, 10);
     }
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
         clearInterval(timerInterval);
 
         if ((!localStorage.getItem('pb') || time < localStorage.getItem('pb')) && won) {
-            pbElement.innerText = time.toFixed(2);
+            pbElement.innerText = time.toFixed(2) + "s";
             localStorage.setItem('pb', time.toFixed(2));
         }
     }

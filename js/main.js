@@ -156,10 +156,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const personalBestElement = document.getElementById("personalBestLost");
 
         minesLostElement.innerText = `${board.minesLeft}/${board.mineCount}`;
-        timeLostElement.innerText = time.toFixed(2);
+        timeLostElement.innerText = time.toFixed(2) + "s";
 
         const personalBest = localStorage.getItem('pb');
-        personalBestElement.innerText = personalBest ? personalBest : "No Personal Best Yet";
+        personalBestElement.innerText = personalBest ? personalBest + "s" : "No Personal Best Yet";
     }
 
     function gameWon() {
@@ -170,8 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const timeWonElement = document.getElementById("timeTaken");
         const pbElement = document.getElementById("personalBestWon");
 
-        timeWonElement.innerText = time.toFixed(2);
-        console.log(localStorage.getItem('pb') || time.toFixed(2))
-        pbElement.innerText = localStorage.getItem('pb') || time.toFixed(2);
+        timeWonElement.innerText = time.toFixed(2) + "s";
+        pbElement.innerText = (localStorage.getItem('pb') || time.toFixed(2)) + "s";
     }
 });
