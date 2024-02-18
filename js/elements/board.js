@@ -20,7 +20,7 @@ class Board {
     draw(ctx) {
         const tileWidth = ctx.canvas.width / this.width;
         const tileHeight = ctx.canvas.height / this.height;
-        this.tiles.flat().forEach(tile => tile.draw(ctx, tileWidth, tileHeight));
+        this.tiles.flat().forEach(tile => tile.draw(ctx, tileWidth, tileHeight, this));
     }
 
     click(point, button = LEFT_BUTTON) {
