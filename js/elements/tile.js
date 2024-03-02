@@ -32,9 +32,12 @@ class Tile {
         context.arcTo(newX, newY, newX + borderRadius, newY, borderRadius);
         context.fill();
 
+        //context.strokeStyle = 'black';
+        //context.strokeRect(x, y, width, height);
+
         if (this.flag) {
             context.fillStyle = 'rgb(149, 93, 167)';
-            context.fillRect(x, y, width, height);
+            context.fillRect(x + borderRadius * 2, y + borderRadius * 2, width - (borderRadius * 2), height - (borderRadius * 2));
         }
 
         if (this.revealed || window.gameState == "LOST") {
@@ -48,7 +51,9 @@ class Tile {
             } else {
                 context.font = "20px Arial";
                 context.fillStyle = 'rgb(152, 152, 152)'
-                context.fillText(this.type, x + halfWidth - 10, y + halfHeight + 10);
+                context.textBaseline = 'middle';
+                context.textAlign = "center";
+                context.fillText(this.type, x + halfWidth, y + halfHeight);
             }
         }
     }

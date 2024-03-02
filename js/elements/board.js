@@ -20,7 +20,9 @@ class Board {
     draw(ctx) {
         const tileWidth = ctx.canvas.width / this.width;
         const tileHeight = ctx.canvas.height / this.height;
-        this.tiles.flat().forEach(tile => tile.draw(ctx, tileWidth, tileHeight));
+        // first draw revealed tiles, then draw unrevealed tiles
+        this.tiles.flat().filter(t => t.revealed).forEach(tile => tile.draw(ctx, tileWidth, tileHeight));
+        this.tiles.flat().filter(t => !t.revealed).forEach(tile => tile.draw(ctx, tileWidth, tileHeight));
     }
 
     click(point, button = LEFT_BUTTON) {
