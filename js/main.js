@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Reveal
             handleCanvasClick(lastMouseLocation);
         }
-        if (e.key === 'v') {
+        if (e.key === 'c') {
             // Flag
             handleCanvasClick({ ...lastMouseLocation, button: 2 });
         }
