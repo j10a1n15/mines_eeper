@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { value: 'easy', label: 'Easy 10x10 - 10', width: 10, height: 10, mines: 10 },
         { value: 'medium', label: 'Medium 15x15 - 40', width: 15, height: 15, mines: 40 },
         { value: 'hard', label: 'Hard 20x20 - 80', width: 20, height: 20, mines: 80 },
-        { value: 'vahvl', label: 'The Vahvl Size™️', width: 32, height: 18, mines: 150 },
+        { value: 'vahvl', label: 'The correct option', width: 32, height: 18, mines: 150 },
         { value: 'custom', label: 'Custom' }
     ];
 
@@ -72,11 +72,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.key === 'r' || e.key === ' ') {
             startGame();
         }
-        if (e.key === 'x') {
+        if (e.key === 'c') {
             // Reveal
             handleCanvasClick(lastMouseLocation);
         }
-        if (e.key === 'c') {
+        if (e.key === 'x') {
             // Flag
             handleCanvasClick({ ...lastMouseLocation, button: 2 });
         }
