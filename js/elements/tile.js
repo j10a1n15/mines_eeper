@@ -12,14 +12,14 @@ class Tile {
         const halfWidth = width / 2;
         const halfHeight = height / 2;
 
-        context.fillStyle = this.revealed ? '#262626' : '#51335b';
+        context.fillStyle = this.revealed ? '#19091b' : '#301934';
         context.fillRect(x, y, width, height);
 
         context.strokeStyle = '#000000';
         context.strokeRect(x, y, width, height);
 
         if (this.flag) {
-            context.fillStyle = '#955da7';
+            context.fillStyle = '#5c3c61';
             context.fillRect(x, y, width, height);
         }
 
@@ -34,7 +34,7 @@ class Tile {
                 return;
             } else {
                 context.font = "20px Arial";
-                context.fillStyle = 'rgb(152, 152, 152)'
+                context.fillStyle = '#8e7492';
                 context.fillText(this.type, x + halfWidth - 10, y + halfHeight + 10);
             }
         }
