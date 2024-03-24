@@ -10,8 +10,8 @@
 }
 
 body {
-    background: #51335b;
-    color: #fff;
+    background: #19091b;
+    color: #c0acc3;
     font-family: Arial, sans-serif;
     text-align: center;
     margin: 0;
@@ -26,11 +26,11 @@ body {
     width: 95%;
     height: 50px;
     transform: translate(2.5%, 0);
-    background: #492e53;
+    background: #301934;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #231628;
+    border: 1px solid #301934;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -62,7 +62,7 @@ body {
 .hamburgerBar {
     width: 30px;
     height: 3px;
-    background: #fff;
+    background: #c0acc3;
     margin: 5px;
 }
 
@@ -72,8 +72,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #492e53;
-    border: 1px solid #231628;
+    background: #301934;
+    border: 1px solid #301934;
     border-radius: 5px;
     z-index: 4;
 
@@ -94,8 +94,8 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 3;
-    background: #492e53d0;
-    border: 1px solid #231628;
+    background: #30193467;
+    border: 1px solid #301934;
     border-radius: 5px;
 }
 
@@ -112,18 +112,18 @@ input {
     margin: 10px;
     padding: 5px;
     border-radius: 5px;
-    border: 1px solid #231628;
-    background: #51335b;
-    color: #fff;
+    border: 1px solid #19091b;
+    background: #19091b;
+    color: #c0acc3;
 }
 
 button {
     margin: 10px;
     padding: 5px;
     border-radius: 5px;
-    border: 1px solid #231628;
-    background: #51335b;
-    color: #fff;
+    border: 1px solid #19091b;
+    background: #19091b;
+    color: #c0acc3;
     cursor: pointer;
 }
 
