@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         { value: 'custom', label: 'Custom' }
     ];
 
+    let lastMouseLocation = { clientX: 0, clientY: 0 };
 
     const startScreen = document.getElementById("startScreen");
     const lostScreen = document.getElementById("loseScreen");
@@ -71,6 +72,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (e.key === 'r' || e.key === ' ') {
             startGame();
         }
+        if (e.key === 'x') {
+            // Reveal
+            handleCanvasClick(lastMouseLocation);
+        }
+        if (e.key === 'v') {
+            // Flag
+            handleCanvasClick({ ...lastMouseLocation, button: 2 });
+        }
     });
 
     document.getElementById("hamburger").addEventListener('click', function () {
@@ -82,7 +91,13 @@ document.addEventListener('DOMContentLoaded', function () {
         openStartMenu();
     });
 
+    document.addEventListener('mousemove', function (e) {
+        lastMouseLocation.clientX = e.clientX;
+        lastMouseLocation.clientY = e.clientY;
+    });
+
     function handleCanvasClick(e) {
+        console.log(e)
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
