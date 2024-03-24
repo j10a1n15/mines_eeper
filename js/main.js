@@ -97,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function handleCanvasClick(e) {
-        console.log(e)
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;

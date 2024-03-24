@@ -12,19 +12,19 @@ class Tile {
         const halfWidth = width / 2;
         const halfHeight = height / 2;
 
-        context.fillStyle = this.revealed ? 'rgb(38, 38, 38)' : 'rgb(81, 51, 91)';
+        context.fillStyle = this.revealed ? '#262626' : '#51335b';
         context.fillRect(x, y, width, height);
 
-        context.strokeStyle = 'black';
+        context.strokeStyle = '#000000';
         context.strokeRect(x, y, width, height);
 
         if (this.flag) {
-            context.fillStyle = 'rgb(149, 93, 167)';
+            context.fillStyle = '#955da7';
             context.fillRect(x, y, width, height);
         }
 
         if (this.revealed || window.gameState == "LOST") {
-            context.fillStyle = 'black';
+            context.fillStyle = '#000000';
 
             if (this.type === "mine") {
                 context.beginPath();
