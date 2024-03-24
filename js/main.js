@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let gameState = 'START';
     const TILE_SIZE = 40;
 
-    let WIDTH = localStorage.getItem('width') || 30;
-    let HEIGHT = localStorage.getItem('height') || 20;
-    let MINES = localStorage.getItem('mines') || 100;
+    let WIDTH = parseInt(localStorage.getItem('width')) || 30;
+    let HEIGHT = parseInt(localStorage.getItem('height')) || 20;
+    let MINES = parseInt(localStorage.getItem('mines')) || 100;
 
     const gameModes = [
         { value: 'easy', label: 'Easy 10x10 - 10', width: 10, height: 10, mines: 10 },
@@ -15,81 +15,72 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
 
     let lastMouseLocation = { clientX: 0, clientY: 0 };
+    let board = new Board(WIDTH, HEIGHT, MINES);
 
     const startScreen = document.getElementById("startScreen");
     const lostScreen = document.getElementById("loseScreen");
     const wonScreen = document.getElementById("winScreen");
     const mineCountElement = document.getElementById('mineCount');
     const gameModeSelect = document.getElementById('gameMode');
-
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
-    let board = new Board(WIDTH, HEIGHT, MINES);
-    canvas.height = HEIGHT * TILE_SIZE;
-    canvas.width = WIDTH * TILE_SIZE;
-
-    gameModes.forEach(mode => {
-        const option = document.createElement('option');
-        option.value = mode.value;
-        option.text = mode.label;
-        gameModeSelect.add(option);
-    });
-
-    gameModeSelect.value = 'easy';
-
+    initializeGameModes();
     openStartMenu();
-
     animate();
+
+    function initializeGameModes() {
+        gameModes.forEach(mode => {
+            const option = document.createElement('option');
+            option.value = mode.value;
+            option.text = mode.label;
+            gameModeSelect.add(option);
+        });
+        gameModeSelect.value = 'easy';
+    }
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         board.draw(ctx);
-
         mineCountElement.innerText = board.minesLeft;
-
         window.gameState = gameState;
         window.openStartMenu = openStartMenu;
         window.startGame = startGame;
         window.gameLost = gameLost;
         window.gameWon = gameWon;
-
         requestAnimationFrame(animate);
     }
 
     canvas.addEventListener('mouseup', handleCanvasClick);
-
     canvas.addEventListener('contextmenu', function (e) {
         e.preventDefault();
     });
 
     document.addEventListener('keyup', function (e) {
-        if (e.key === 'Escape') {
-            openStartMenu();
-            stopTimer(false);
-            gameState = 'START';
-        }
-        if (e.key === 'r' || e.key === ' ') {
-            startGame();
-        }
-        if (e.key === 'c') {
-            // Reveal
-            handleCanvasClick(lastMouseLocation);
-        }
-        if (e.key === 'x') {
-            // Flag
-            handleCanvasClick({ ...lastMouseLocation, button: 2 });
+        switch (e.key) {
+            case 'Escape':
+                openStartMenu();
+                stopTimer(false);
+                gameState = 'START';
+                break;
+            case 'r':
+            case ' ':
+                startGame();
+                break;
+            case 'c':
+                handleCanvasClick(lastMouseLocation);
+                break;
+            case 'x':
+                handleCanvasClick({ ...lastMouseLocation, button: 2 });
+                break;
+            default:
+                break;
         }
     });
 
-    document.getElementById("hamburger").addEventListener('click', function () {
-        const hamburgerMenu = document.getElementById("hamburgerMenu")
-        hamburgerMenu.style.display = hamburgerMenu.style.display === 'block' ? 'none' : 'block';
-    });
+    document.getElementById("hamburger").addEventListener('click', toggleHamburgerMenu);
 
-    document.getElementById('gameMode').addEventListener('change', function () {
-        openStartMenu();
-    });
+    document.getElementById('gameMode').addEventListener('change', openStartMenu);
 
     document.addEventListener('mousemove', function (e) {
         lastMouseLocation.clientX = e.clientX;
@@ -100,10 +91,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-
         const i = Math.floor(x / TILE_SIZE);
         const j = Math.floor(y / TILE_SIZE);
-
         if (gameState === "PLAYING") board.click(new Point(i, j), e.button);
     }
 
@@ -116,14 +105,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('customHeight').value = HEIGHT;
         document.getElementById('customMines').value = MINES;
 
-
         const gameMode = document.getElementById('gameMode').value;
-
-        if (gameMode === 'custom') {
-            document.getElementById('customInputs').style.display = 'block';
-        } else {
-            document.getElementById('customInputs').style.display = 'none';
-        }
+        document.getElementById('customInputs').style.display = (gameMode === 'custom') ? 'block' : 'none';
     }
 
     function startGame() {
@@ -141,7 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         time = 0;
-
         WIDTH = width;
         HEIGHT = height;
         MINES = mines;
@@ -186,5 +168,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         timeWonElement.innerText = time.toFixed(2) + "s";
         pbElement.innerText = (localStorage.getItem('pb') || time.toFixed(2)) + "s";
+    }
+
+    function toggleHamburgerMenu() {
+        const hamburgerMenu = document.getElementById("hamburgerMenu");
+        hamburgerMenu.style.display = (hamburgerMenu.style.display === 'block') ? 'none' : 'block';
     }
 });
