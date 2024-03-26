@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const mineCountElement = document.getElementById('mineCount');
     const gameModeSelect = document.getElementById('gameMode');
     const canvas = document.getElementById('canvas');
+    const canvasBlur = document.getElementById('blur');
     const ctx = canvas.getContext('2d');
 
     initializeGameModes();
@@ -100,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
         startScreen.style.display = 'block';
         lostScreen.style.display = 'none';
         wonScreen.style.display = 'none';
+        canvasBlur.style.display = "block";
 
         document.getElementById('customWidth').value = WIDTH;
         document.getElementById('customHeight').value = HEIGHT;
@@ -134,18 +136,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
         canvas.height = height * TILE_SIZE;
         canvas.width = width * TILE_SIZE;
+        canvasBlur.style.width = `${canvas.width}px`;
+        canvasBlur.style.height = `${canvas.height}px`;
 
         board = new Board(width, height, mines);
         gameState = 'PLAYING';
         startScreen.style.display = 'none';
         lostScreen.style.display = 'none';
         wonScreen.style.display = 'none';
+        canvasBlur.style.display = 'none';
     }
 
     function gameLost() {
         stopTimer(false);
         gameState = "LOST";
         lostScreen.style.display = "block";
+        canvasBlur.style.display = "block";
 
         const minesLostElement = document.getElementById("minesLost");
         const timeLostElement = document.getElementById("timeLost");
@@ -161,6 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function gameWon() {
         stopTimer();
         wonScreen.style.display = "block";
+        canvasBlur.style.display = "block";
         gameState = "WON";
 
         const timeWonElement = document.getElementById("timeTaken");
