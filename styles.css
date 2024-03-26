@@ -120,6 +120,7 @@ body {
     opacity: 0.8;
     border: 1px solid var(--background-contrast);
     border-radius: 5px;
+    backdrop-filter:blur(5px);
 }
 
 .screenChild {
