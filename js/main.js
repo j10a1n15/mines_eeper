@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', function () {
     let gameState = 'START';
     const TILE_SIZE = 40;
 
+    let settings = JSON.parse(localStorage.getItem('settings')) || {};
+    if (!settings.hasOwnProperty('showAdvancedFlag')) {
+        settings.showAdvancedFlag = false;
+        updateSettings(settings);
+    }
+
     let WIDTH = parseInt(localStorage.getItem('width')) || 30;
     let HEIGHT = parseInt(localStorage.getItem('height')) || 20;
     let MINES = parseInt(localStorage.getItem('mines')) || 100;
@@ -49,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
         window.startGame = startGame;
         window.gameLost = gameLost;
         window.gameWon = gameWon;
+        window.settings = settings;
         requestAnimationFrame(animate);
     }
 
@@ -86,6 +93,15 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('mousemove', function (e) {
         lastMouseLocation.clientX = e.clientX;
         lastMouseLocation.clientY = e.clientY;
+    });
+
+    const showAdvancedFlagCheckbox = document.getElementById('showAdvancedFlag');
+    showAdvancedFlagCheckbox.checked = JSON.parse(localStorage.getItem('settings')).showAdvancedFlag || false;
+
+    showAdvancedFlagCheckbox.addEventListener('change', function () {
+        const settings = JSON.parse(localStorage.getItem('settings')) || {};
+        settings.showAdvancedFlag = this.checked;
+        updateSettings(settings);
     });
 
     function handleCanvasClick(e) {
@@ -180,5 +196,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function toggleHamburgerMenu() {
         const hamburgerMenu = document.getElementById("hamburgerMenu");
         hamburgerMenu.style.display = (hamburgerMenu.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function updateSettings(newSettings) {
+        localStorage.setItem('settings', JSON.stringify(newSettings));
+        settings = newSettings;
     }
 });

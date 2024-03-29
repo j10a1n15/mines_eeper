@@ -15,30 +15,35 @@ class Tile {
         context.fillStyle = this.revealed ? '#19091b' : '#301934';
         context.fillRect(x, y, width, height);
 
-        context.strokeStyle = '#000000';
-        context.strokeRect(x, y, width, height);
-
         if (this.flag) {
             const flagColor = '#5c3c61';
-            // Draw flagpole holder
-            context.fillStyle = flagColor;
-            context.fillRect(x + 5, y + height * 0.90, width * 0.5, height * 0.8);
+            if (settings.showAdvancedFlag) {
+                // Draw flagpole holder
+                context.fillStyle = flagColor;
+                context.fillRect(x + 5, y + height * 0.90, width * 0.5, height * 0.8);
 
-            // Draw flagpole
-            context.fillStyle = flagColor;
-            context.fillRect(x + width * 0.33, y + height * 0.05, width * 0.10, height * 0.85);
+                // Draw flagpole
+                context.fillStyle = flagColor;
+                context.fillRect(x + width * 0.33, y + height * 0.05, width * 0.10, height * 0.85);
 
-            const newY = y + height / 1.75;
+                const newY = y + height / 1.75;
 
-            // Draw flag
-            context.fillStyle = flagColor;
-            context.beginPath();
-            context.moveTo(x + width / 2.4, newY);
-            context.lineTo(x + width / 2.4, newY - height / 2);
-            context.lineTo(x + width / 1.1, newY - height / 4);
-            context.closePath();
-            context.fill();
+                // Draw flag
+                context.fillStyle = flagColor;
+                context.beginPath();
+                context.moveTo(x + width / 2.4, newY);
+                context.lineTo(x + width / 2.4, newY - height / 2);
+                context.lineTo(x + width / 1.1, newY - height / 4);
+                context.closePath();
+                context.fill();
+            } else {
+                context.fillStyle = flagColor;
+                context.fillRect(x, y, width, height);
+            }
         }
+
+        context.strokeStyle = '#000000';
+        context.strokeRect(x, y, width, height);
 
         if (this.revealed || window.gameState == "LOST") {
             context.fillStyle = '#000000';
