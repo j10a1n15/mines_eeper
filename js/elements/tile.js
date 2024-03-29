@@ -42,7 +42,7 @@ class Tile {
             }
         }
 
-        if (settings.showTileBorders) {
+        if (settings.showTileBorder) {
             context.strokeStyle = '#000000';
             context.strokeRect(x, y, width, height);
         }
