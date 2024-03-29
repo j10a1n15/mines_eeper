@@ -42,8 +42,10 @@ class Tile {
             }
         }
 
-        context.strokeStyle = '#000000';
-        context.strokeRect(x, y, width, height);
+        if (settings.showTileBorders) {
+            context.strokeStyle = '#000000';
+            context.strokeRect(x, y, width, height);
+        }
 
         if (this.revealed || window.gameState == "LOST") {
             context.fillStyle = '#000000';

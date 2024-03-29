@@ -4,7 +4,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let settings = JSON.parse(localStorage.getItem('settings')) || {};
     if (!settings.hasOwnProperty('showAdvancedFlag')) {
-        settings.showAdvancedFlag = false;
+        settings.showAdvancedFlag = true;
+        updateSettings(settings);
+    }
+    if (!settings.hasOwnProperty('showTileBorder')) {
+        settings.showTileBorder = true;
         updateSettings(settings);
     }
 
@@ -48,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        board.draw(ctx);
         mineCountElement.innerText = board.minesLeft;
         window.gameState = gameState;
         window.openStartMenu = openStartMenu;
@@ -56,6 +59,8 @@ document.addEventListener('DOMContentLoaded', function () {
         window.gameLost = gameLost;
         window.gameWon = gameWon;
         window.settings = settings;
+
+        board.draw(ctx);
         requestAnimationFrame(animate);
     }
 
@@ -86,7 +91,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    document.getElementById("hamburger").addEventListener('click', toggleHamburgerMenu);
+    document.getElementById("hamburger").addEventListener('click', function (event) {
+        event.stopPropagation();
+        toggleHamburgerMenu();
+    });
+    document.getElementById("hamburgerMenu").addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
+    document.addEventListener('click', function (event) {
+        const hamburgerMenu = document.getElementById("hamburgerMenu");
+        const isClickInsideMenu = hamburgerMenu.contains(event.target);
+        if (!isClickInsideMenu) {
+            hamburgerMenu.style.display = 'none';
+        }
+    });
 
     document.getElementById('gameMode').addEventListener('change', openStartMenu);
 
@@ -101,6 +119,15 @@ document.addEventListener('DOMContentLoaded', function () {
     showAdvancedFlagCheckbox.addEventListener('change', function () {
         const settings = JSON.parse(localStorage.getItem('settings')) || {};
         settings.showAdvancedFlag = this.checked;
+        updateSettings(settings);
+    });
+
+    const showTileBorderCheckbox = document.getElementById('showTileBorder');
+    showTileBorderCheckbox.checked = JSON.parse(localStorage.getItem('settings')).showTileBorder || false;
+
+    showTileBorderCheckbox.addEventListener('change', function () {
+        const settings = JSON.parse(localStorage.getItem('settings')) || {};
+        settings.showTileBorder = this.checked;
         updateSettings(settings);
     });
 

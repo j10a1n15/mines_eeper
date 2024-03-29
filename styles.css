@@ -96,12 +96,51 @@ body {
     align-items: center;
     justify-content: center;
     background: var(--background-contrast);
-    border: 1px solid var(--background-contrast);
+    border: 1px solid 271f2b;
     border-radius: 5px;
     z-index: 4;
     left: 50%;
     top: 50%;
     transform: translate(-50%, 0);
+}
+
+.hamburgerMenu > * {
+    display: block;
+}
+
+.hamburgerMenu input[type="checkbox"] {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    background-color: var(--background);
+    border-radius: 20px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s;
+}
+
+.hamburgerMenu input[type="checkbox"]::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--text);
+    transition: transform 0.3s;
+}
+
+.hamburgerMenu input[type="checkbox"]:checked {
+    background-color: var(--highlight);
+}
+
+.hamburgerMenu input[type="checkbox"]:checked::after {
+    transform: translateX(20px);
 }
 
 .screen {
